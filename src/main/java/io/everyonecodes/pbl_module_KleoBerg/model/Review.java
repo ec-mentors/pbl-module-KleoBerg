@@ -17,11 +17,18 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "comment_text", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String comment;
     private double rating;
 
     @ManyToOne
-    @JoinColumn(name = "medical_provider_id", nullable = false)
-    private MedicalProvider reviewedProvider;
+    @JoinColumn(nullable = false)
+    private Provider reviewedProvider;
+
+
+    public Review(String comment, double rating, Provider reviewedProvider) {
+        this.reviewedProvider = reviewedProvider;
+        this.rating = rating;
+        this.comment = comment;
+    }
 }
