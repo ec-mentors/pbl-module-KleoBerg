@@ -1,5 +1,6 @@
 package io.everyonecodes.pbl_module_KleoBerg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,11 +18,19 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "comment_text", columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT")
     private String comment;
     private double rating;
 
     @ManyToOne
-    @JoinColumn(name = "medical_provider_id", nullable = false)
-    private MedicalProvider reviewedProvider;
+    @JoinColumn(nullable = false)
+    @JsonIgnore //remove when DTOs implemented
+    private Provider reviewedProvider;
+
+
+    public Review(String comment, double rating, Provider reviewedProvider) {
+        this.reviewedProvider = reviewedProvider;
+        this.rating = rating;
+        this.comment = comment;
+    }
 }
