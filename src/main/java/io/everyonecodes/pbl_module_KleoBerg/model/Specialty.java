@@ -1,5 +1,6 @@
 package io.everyonecodes.pbl_module_KleoBerg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,6 @@ public class Specialty {
     private String name;
 
     @ManyToMany(mappedBy = "specialties")
+    @JsonIgnore // remove when DTOs implemented
     private Set<Provider> providers;
 }

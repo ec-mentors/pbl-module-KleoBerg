@@ -1,5 +1,6 @@
 package io.everyonecodes.pbl_module_KleoBerg.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(nullable = false)
+    @JsonIgnore //remove when DTOs implemented
     private Provider reviewedProvider;
 
 
