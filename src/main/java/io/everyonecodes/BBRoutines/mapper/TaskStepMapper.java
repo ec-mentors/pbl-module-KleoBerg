@@ -23,4 +23,15 @@ public class TaskStepMapper {
                 .step(stepMapper.toDto(taskStep.getStep()))
                 .build();
     }
+
+    public TaskStep toEntity(TaskStepDto dto) {
+        if (dto == null) {
+            return null;
+        }
+        return TaskStep.builder()
+                .sequenceOrder(dto.getSequenceOrder())
+                .expectedDurationSeconds(dto.getExpectedDurationSeconds())
+                .step(stepMapper.toEntity(dto.getStep())) // Creates a transient Step entity
+                .build();
+    }
 }
