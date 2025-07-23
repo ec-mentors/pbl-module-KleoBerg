@@ -34,7 +34,7 @@ public class Routine {
 
     @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("sequenceOrder ASC")
-    @Singular
+    @Builder.Default
     private List<RoutineTask> routineTasks = new ArrayList<>();
 
     // --- Utility Methods for post-creation modification ---

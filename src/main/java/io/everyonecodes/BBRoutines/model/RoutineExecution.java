@@ -40,7 +40,7 @@ public class RoutineExecution {
 
     @OneToMany(mappedBy = "routineExecution", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("actualStartTime ASC")
-    @Singular
+    @Builder.Default
     private List<TaskExecution> taskExecutions = new ArrayList<>();
 
     // --- Utility Methods for post-creation modification ---
