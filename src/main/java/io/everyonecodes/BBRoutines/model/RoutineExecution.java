@@ -52,5 +52,6 @@ public class RoutineExecution {
     public void removeTaskExecution(TaskExecution taskExecution) {
         taskExecutions.remove(taskExecution);
         taskExecution.setRoutineExecution(null);
+
     }
 }
