@@ -30,6 +30,6 @@ public class Step {
     private String audioCueUrl;
 
     @OneToMany(mappedBy = "step", fetch = FetchType.LAZY)
-    @Singular("taskStepAssociation")
+    @Builder.Default
     private List<TaskStep> taskStepAssociations = new ArrayList<>();
 }

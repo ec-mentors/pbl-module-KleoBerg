@@ -48,7 +48,7 @@ public class TaskExecution {
 
     @OneToMany(mappedBy = "taskExecution", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("actualStartTime ASC")
-    @Singular
+    @Builder.Default
     private List<StepExecution> stepExecutions = new ArrayList<>();
 
     // --- Utility Methods for post-creation modification ---

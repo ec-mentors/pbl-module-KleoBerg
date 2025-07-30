@@ -19,17 +19,4 @@ public class StepMapper {
                 .audioCueUrl(step.getAudioCueUrl())
                 .build();
     }
-
-    public Step toEntity(StepDto dto) {
-        if (dto == null) {
-            return null;
-        }
-        return Step.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .iconUrl(dto.getIconUrl())
-                .audioCueUrl(dto.getAudioCueUrl())
-                .build();
-    }
 }

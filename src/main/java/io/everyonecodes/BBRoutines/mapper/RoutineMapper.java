@@ -3,7 +3,6 @@ package io.everyonecodes.BBRoutines.mapper;
 import io.everyonecodes.BBRoutines.dto.RoutineDto;
 import io.everyonecodes.BBRoutines.model.Routine;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,14 +31,5 @@ public class RoutineMapper {
                                 .collect(Collectors.toList())
                 )
                 .build();
-    }
-
-    public List<RoutineDto> toDtoList(List<Routine> routines) {
-        if (routines == null) {
-            return null;
-        }
-        return routines.stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
     }
 }

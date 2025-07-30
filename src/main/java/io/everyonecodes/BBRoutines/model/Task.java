@@ -30,12 +30,12 @@ public class Task {
     private String audioCueUrl;
 
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
-    @Singular("routineTaskAssociation")
+    @Builder.Default
     private List<RoutineTask> routineTaskAssociations = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("sequenceOrder ASC")
-    @Singular
+    @Builder.Default
     private List<TaskStep> taskSteps = new ArrayList<>();
 
     // --- Utility Methods for post-creation modification ---
