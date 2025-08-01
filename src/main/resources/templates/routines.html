@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Routine Dashboard</title>
+    <!-- Add CSS later, e.g., from Bootstrap for styling -->
+</head>
+<body>
+
+<h1>Routine Dashboard</h1>
+
+<a th:href="@{/web/routines/add}">Add New Routine</a>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Routine Name</th>
+        <th>Description</th>
+        <th>Is Active</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Loop through the list of routines passed from the controller -->
+    <tr th:each="routine : ${routines}">
+        <td th:text="${routine.id}">1</td>
+        <td th:text="${routine.name}">Morning Routine</td>
+        <td th:text="${routine.description}">Get ready for school</td>
+        <td th:text="${routine.isActive} ? 'Yes' : 'No'">Yes</td>
+        <td>
+            <!-- Links to edit and delete actions -->
+            <a th:href="@{/web/routines/{id}/edit(id=${routine.id})}">Edit</a>
+            |
+            <a th:href="@{/web/routines/{id}/delete(id=${routine.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

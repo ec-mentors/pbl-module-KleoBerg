@@ -14,7 +14,7 @@ public class RoutineDto {
     private String name;
     private String description;
     private int totalExpectedDurationSeconds;
-    private boolean isActive;
+    private Boolean isActive;
     @Builder.Default
     private List<RoutineTaskDto> routineTasks = new ArrayList<>();
 }

@@ -76,7 +76,7 @@ public class RoutineService {
                 .name(routineDto.getName())
                 .description(routineDto.getDescription())
                 .totalExpectedDurationSeconds(routineDto.getTotalExpectedDurationSeconds())
-                .isActive(routineDto.isActive())
+                .isActive(routineDto.getIsActive())
                 .build();
 
 

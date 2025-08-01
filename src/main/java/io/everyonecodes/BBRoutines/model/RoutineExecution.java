@@ -24,11 +24,11 @@ public class RoutineExecution {
     @ManyToOne(fetch = FetchType.LAZY)
     private Routine routine;
 
-    @Column(nullable = false)
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-
+    private LocalDateTime pauseInitiatedAt;
+    private int pausedDurationSeconds = 0;
     private Integer actualTotalDurationSeconds;
 
     @Enumerated(EnumType.STRING)

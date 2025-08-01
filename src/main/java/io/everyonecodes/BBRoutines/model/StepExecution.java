@@ -25,11 +25,12 @@ public class StepExecution {
     @ManyToOne(fetch = FetchType.LAZY)
     private TaskStep taskStep;
 
-    @Column(nullable = false)
     private LocalDateTime actualStartTime;
 
     private LocalDateTime actualEndTime;
+    private int pausedDurationSeconds = 0;
     private Integer actualDurationSeconds;
+    //add time adjustement
 
     @Column(nullable = false)
     private boolean wasConfirmed = false;
