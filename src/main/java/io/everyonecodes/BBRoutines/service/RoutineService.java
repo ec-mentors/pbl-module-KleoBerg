@@ -63,7 +63,7 @@ public class RoutineService {
 
     public void deleteRoutineById(Long id) {
         if (!routineRepository.existsById(id)) {
-            throw new IllegalArgumentException("Cannot delete. Routine not found with ID: " + id);
+            throw new IllegalArgumentException("Cannot delete. Routine not found with  ID: " + id);
         }
         routineRepository.deleteById(id);
     }
