@@ -1,4 +1,4 @@
-package io.everyonecodes.BBRoutines.view;
+package io.everyonecodes.BBRoutines.controller;
 
 import io.everyonecodes.BBRoutines.dto.RoutineDto;
 import io.everyonecodes.BBRoutines.service.RoutineService;

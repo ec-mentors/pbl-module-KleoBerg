@@ -30,7 +30,6 @@ public class RoutineExecutionService {
         this.routineExecutionMapper = routineExecutionMapper;
     }
 
-    // --- MAIN PUBLIC METHODS ---
 
     public List<RoutineExecutionDto> findAllExecutions() {
         List<RoutineExecution> executions = routineExecutionRepository.findAll();
@@ -40,7 +39,6 @@ public class RoutineExecutionService {
     }
 
     public RoutineExecutionDto startRoutine(Long routineId) {
-        // Implicitly abandon any old, unfinished routines before starting a new one.
         findCurrentInProgressRoutineEntity().ifPresent(oldExecution -> {
             oldExecution.setStatus(RoutineStatus.ABANDONED);
             oldExecution.setEndTime(LocalDateTime.now());
@@ -52,7 +50,6 @@ public class RoutineExecutionService {
 
         RoutineExecution routineExecution = createExecutionPlanFromDefinition(routineDefinition);
 
-        // Set the start time for the very first step and its parent task.
         findNextPendingStep(routineExecution).ifPresent(firstStep -> {
             firstStep.setActualStartTime(LocalDateTime.now());
             firstStep.getTaskExecution().setActualStartTime(LocalDateTime.now());
@@ -71,7 +68,6 @@ public class RoutineExecutionService {
         StepExecution currentStep = findNextPendingStep(execution)
                 .orElseThrow(() -> new IllegalStateException("No pending steps to confirm in this routine."));
 
-        // Finalize the current step
         currentStep.setWasConfirmed(true);
         currentStep.setActualEndTime(LocalDateTime.now());
         if (currentStep.getActualStartTime() != null) {
@@ -79,13 +75,11 @@ public class RoutineExecutionService {
             currentStep.setActualDurationSeconds((int) totalSeconds - currentStep.getPausedDurationSeconds());
         }
 
-        // Check if this completes the task or the whole routine
         updateParentCompletionStatus(currentStep.getTaskExecution());
 
-        // Set the start time for the *next* step, if one exists
+
         findNextPendingStep(execution).ifPresent(nextStep -> {
             nextStep.setActualStartTime(LocalDateTime.now());
-            // If this is the first step of a new task, also set the task's start time
             if (nextStep.getTaskExecution().getActualStartTime() == null) {
                 nextStep.getTaskExecution().setActualStartTime(LocalDateTime.now());
             }
@@ -110,10 +104,8 @@ public class RoutineExecutionService {
             throw new IllegalStateException("Can only resume a routine that is currently paused.");
         }
 
-        // Calculate how long the routine was paused
         long pauseSeconds = Duration.between(execution.getPauseInitiatedAt(), LocalDateTime.now()).getSeconds();
 
-        // Find the current step to add the accumulated pause time to.
         findNextPendingStep(execution).ifPresent(currentStep -> {
             currentStep.setPausedDurationSeconds(currentStep.getPausedDurationSeconds() + (int) pauseSeconds);
             currentStep.getTaskExecution().setPausedDurationSeconds(currentStep.getTaskExecution().getPausedDurationSeconds() + (int) pauseSeconds);
@@ -136,7 +128,8 @@ public class RoutineExecutionService {
     }
 
 
-    // --- PRIVATE HELPER METHODS ---
+
+
 
     private RoutineExecution createExecutionPlanFromDefinition(Routine routineDefinition) {
         RoutineExecution execution = RoutineExecution.builder()

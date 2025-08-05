@@ -55,7 +55,6 @@ public class RoutineService {
         if (routineRepository.existsById(id)) {
                 throw new IllegalArgumentException("Cannot update. Routine not found with ID: " + id);
         }
-
         routineDto.setId(id);
         Routine updatedRoutine = buildRoutineFromDto(routineDto);
         Routine savedRoutine = routineRepository.save(updatedRoutine);
