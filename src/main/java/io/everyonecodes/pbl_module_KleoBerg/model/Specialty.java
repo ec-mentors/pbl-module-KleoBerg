@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,5 @@ public class Specialty {
     private String name;
 
     @ManyToMany(mappedBy = "specialties")
-    @JsonIgnore // remove when DTOs implemented
-    private Set<Provider> providers;
+    private Set<Provider> providers = new HashSet<>();
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,11 +26,10 @@ public class Provider {
             joinColumns = @JoinColumn,
             inverseJoinColumns = @JoinColumn
     )
-    private Set<Specialty> specialties;
+    private Set<Specialty> specialties = new HashSet<>(); //initiialized zu einem HashSet damit es nie null ist.
 
     @OneToMany(mappedBy = "reviewedProvider")
-    private Set<Review> reviews;
+    private Set<Review> reviews =  new HashSet<>();
 }
 
 
-//@configuration

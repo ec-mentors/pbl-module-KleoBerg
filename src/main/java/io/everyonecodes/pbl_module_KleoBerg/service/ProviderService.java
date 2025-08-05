@@ -1,5 +1,6 @@
 package io.everyonecodes.pbl_module_KleoBerg.service;
 
+import io.everyonecodes.pbl_module_KleoBerg.dto.ProviderDTO;
 import io.everyonecodes.pbl_module_KleoBerg.model.Provider;
 import io.everyonecodes.pbl_module_KleoBerg.model.Review;
 import io.everyonecodes.pbl_module_KleoBerg.model.Specialty;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProviderService {
@@ -33,13 +35,16 @@ public class ProviderService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Provider> findProviderById(Long id) {
-        return providerRepository.findById(id);
+    public Optional<ProviderDTO> findProviderById(Long id) {
+        return providerRepository.findById(id)
+                .map(ProviderDTO::new);
     }
 
     @Transactional(readOnly = true)
-    public List<Provider> findAllProviders() {
-        return providerRepository.findAll();
+    public List<ProviderDTO> findAllProviders() {
+        return providerRepository.findAll().stream()
+                .map(ProviderDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional

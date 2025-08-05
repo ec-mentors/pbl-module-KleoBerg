@@ -1,6 +1,7 @@
 package io.everyonecodes.pbl_module_KleoBerg.controller;
 
 
+import io.everyonecodes.pbl_module_KleoBerg.dto.ProviderDTO;
 import io.everyonecodes.pbl_module_KleoBerg.model.Provider;
 import io.everyonecodes.pbl_module_KleoBerg.service.ProviderService;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,13 @@ public class ProviderController {
     }
 
     @GetMapping
-    public List<Provider> getAllProviders() {
+    public List<ProviderDTO> getAllProviders() {
         System.out.println("Received request to get all providers");
         return providerService.findAllProviders();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Provider> getProviderById(@PathVariable Long id) {
+    public ResponseEntity<ProviderDTO> getProviderById(@PathVariable Long id) {
         System.out.println("Received request to get provider with ID: " + id);
         return providerService.findProviderById(id)
                 .map(ResponseEntity::ok)

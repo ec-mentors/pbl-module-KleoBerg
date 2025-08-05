@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My First Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<h1>Welcome to My Website</h1>
-<p>This is a basic HTML page.</p>
+<div class="container">
+    <h1>Queermed</h1>
+
+    <h2>Providers</h2>
+
+    <div th:if="${#lists.isEmpty(providers)}">
+        <p>No providers found yet!</p>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(providers)}">
+
+        <div th:each="provider : ${providers}" class="post-card">
+            <h3> <span th:text="${provider.lastName}"> Last Name Placeholder</span>, <span th:text="${provider.firstName}"> First Name Placeholder</span></h3>
+            <p>Specialties: <span th:each="specialty : ${provider.specialties}" th:text="${specialty.name}">Provider specialties Placeholder</span></p>
+            <p> Average rating: <span th:text="${provider.averageRating}">Rating Placeholder</span></p>
+            <p> Number of reviews: <span th:text="${provider.numberOfReviews}">Number of reviews Placeholder</span></p>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
