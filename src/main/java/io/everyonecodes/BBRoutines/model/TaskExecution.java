@@ -27,10 +27,10 @@ public class TaskExecution {
     @ManyToOne(fetch = FetchType.LAZY)
     private RoutineTask routineTask;
 
-    @Column(nullable = false)
     private LocalDateTime actualStartTime;
 
     private LocalDateTime actualEndTime;
+    private int pausedDurationSeconds = 0;
     private Integer actualDurationSeconds;
     private Integer timeAdjustmentApplied;
 

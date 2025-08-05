@@ -1,9 +1,11 @@
 package io.everyonecodes.BBRoutines.config;
 
 import io.everyonecodes.BBRoutines.model.*;
+import io.everyonecodes.BBRoutines.repository.RoutineExecutionRepository;
 import io.everyonecodes.BBRoutines.repository.RoutineRepository;
 import io.everyonecodes.BBRoutines.repository.StepRepository;
 import io.everyonecodes.BBRoutines.repository.TaskRepository;
+import io.everyonecodes.BBRoutines.service.RoutineExecutionService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +16,19 @@ public class DataLoader implements CommandLineRunner {
     private final RoutineRepository routineRepository;
     private final TaskRepository taskRepository;
     private final StepRepository stepRepository;
+    private final RoutineExecutionService routineExecutionService;
+    private final RoutineExecutionRepository routineExecutionRepository;
 
     public DataLoader(RoutineRepository routineRepository,
                       TaskRepository taskRepository,
-                      StepRepository stepRepository) {
+                      StepRepository stepRepository,
+                      RoutineExecutionService routineExecutionService,
+                      RoutineExecutionRepository routineExecutionRepository) {
         this.routineRepository = routineRepository;
         this.taskRepository = taskRepository;
         this.stepRepository = stepRepository;
+        this.routineExecutionService = routineExecutionService;
+        this.routineExecutionRepository = routineExecutionRepository;
     }
 
     @Override
@@ -44,26 +52,21 @@ public class DataLoader implements CommandLineRunner {
         Step stepPackLunch = stepRepository.save(Step.builder().name("Pack lunchbox").build());
 
         // --- 3. Create, assemble, and Save all reusable TASK definitions ---
-
-        // Task: Get Dressed
         Task taskGetDressed = Task.builder().name("Get Dressed").iconUrl("/icons/clothes.png").build();
         taskGetDressed.addTaskStep(TaskStep.builder().sequenceOrder(1).expectedDurationSeconds(120).step(stepPants).build());
         taskGetDressed.addTaskStep(TaskStep.builder().sequenceOrder(2).expectedDurationSeconds(90).step(stepShirt).build());
-        taskGetDressed = taskRepository.save(taskGetDressed); // Save the fully assembled task
+        taskGetDressed = taskRepository.save(taskGetDressed);
 
-        // Task: Bathroom Time
         Task taskBathroom = Task.builder().name("Bathroom Time").iconUrl("/icons/bathroom.png").build();
         taskBathroom.addTaskStep(TaskStep.builder().sequenceOrder(1).expectedDurationSeconds(120).step(stepBrushTeeth).build());
         taskBathroom.addTaskStep(TaskStep.builder().sequenceOrder(2).expectedDurationSeconds(60).step(stepWashFace).build());
         taskBathroom = taskRepository.save(taskBathroom);
 
-        // Task: Eat Breakfast
         Task taskBreakfast = Task.builder().name("Eat Breakfast").iconUrl("/icons/breakfast.png").build();
         taskBreakfast.addTaskStep(TaskStep.builder().sequenceOrder(1).expectedDurationSeconds(300).step(stepEatCereal).build());
         taskBreakfast.addTaskStep(TaskStep.builder().sequenceOrder(2).expectedDurationSeconds(30).step(stepDrinkJuice).build());
         taskBreakfast = taskRepository.save(taskBreakfast);
 
-        // Task: Get Ready to Leave
         Task taskGetReady = Task.builder().name("Get Ready to Leave").iconUrl("/icons/door.png").build();
         taskGetReady.addTaskStep(TaskStep.builder().sequenceOrder(1).expectedDurationSeconds(60).step(stepSocks).build());
         taskGetReady.addTaskStep(TaskStep.builder().sequenceOrder(2).expectedDurationSeconds(45).step(stepJacket).build());
@@ -78,19 +81,23 @@ public class DataLoader implements CommandLineRunner {
                 .isActive(true)
                 .build();
 
-        // Add the already saved tasks to the routine
         morningRoutine.addRoutineTask(RoutineTask.builder().sequenceOrder(1).expectedDurationSeconds(300).task(taskGetDressed).build());
         morningRoutine.addRoutineTask(RoutineTask.builder().sequenceOrder(2).expectedDurationSeconds(240).task(taskBathroom).build());
         morningRoutine.addRoutineTask(RoutineTask.builder().sequenceOrder(3).expectedDurationSeconds(600).task(taskBreakfast).build());
         morningRoutine.addRoutineTask(RoutineTask.builder().sequenceOrder(4).expectedDurationSeconds(200).task(taskGetReady).build());
 
-        routineRepository.save(morningRoutine); // Save the fully assembled routine
+        morningRoutine = routineRepository.save(morningRoutine); // Re-assign to get the saved entity with ID
 
-        // --- 5. Print confirmation to the console ---
+        // --- 5. Create a sample RoutineExecution for testing ---
+        System.out.println("--- Creating a sample in-progress Routine Execution ---");
+        routineExecutionService.startRoutine(morningRoutine.getId());
+
+        // --- 6. Print confirmation to the console ---
         System.out.println("--- Database Initialized with Test Data ---");
         System.out.println("Routines loaded: " + routineRepository.count());
         System.out.println("Tasks loaded: " + taskRepository.count());
         System.out.println("Steps loaded: " + stepRepository.count());
+        System.out.println("Routine Executions loaded: " + routineExecutionRepository.count());
         System.out.println("-----------------------------------------");
     }
 }

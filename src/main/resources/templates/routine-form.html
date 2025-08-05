@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Routine Form</title>
+</head>
+<body>
+
+<!-- The title changes based on whether we are editing or adding -->
+<h1 th:if="${routine.id == null}">Add New Routine</h1>
+<h1 th:unless="${routine.id == null}">Edit Routine</h1>
+
+<!--
+  - th:action points to our save method in the controller.
+  - th:object binds this form to the 'routine' DTO from the model.
+-->
+<form action="#" th:action="@{/web/routines/save}" th:object="${routine}" method="post">
+
+    <!-- Hidden input to hold the ID for updates. This is crucial! -->
+    <input type="hidden" th:field="*{id}"/>
+
+    <div>
+        <label for="name">Routine Name:</label><br/>
+        <!-- th:field links this input to the 'name' field of the 'routine' object -->
+        <input type="text" id="name" th:field="*{name}" required/>
+    </div>
+    <br/>
+    <div>
+        <label for="description">Description:</label><br/>
+        <textarea id="description" th:field="*{description}" rows="4" cols="50"></textarea>
+    </div>
+    <br/>
+    <div>
+        <label for="duration">Total Expected Duration (seconds):</label><br/>
+        <input type="number" id="duration" th:field="*{totalExpectedDurationSeconds}" required/>
+    </div>
+    <br/>
+    <div>
+        <label for="active">Is Active:</label>
+        <input type="checkbox" id="active" th:field="*{isActive}"/>
+    </div>
+    <br/>
+
+    <!-- TODO: Add logic here to add/remove/reorder tasks -->
+    <!-- This part would be more complex and is a great next step. For now, this form
+         only edits the main properties of the Routine. -->
+
+    <button type="submit">Save Routine</button>
+    <a th:href="@{/web/routines}">Cancel</a>
+</form>
+
+</body>
+</html>
