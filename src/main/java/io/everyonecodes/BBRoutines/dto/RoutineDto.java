@@ -2,6 +2,7 @@ package io.everyonecodes.BBRoutines.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ public class RoutineDto {
     private String name;
     private String description;
     private int totalExpectedDurationSeconds;
-    private boolean isActive;
-    @Singular
-    private List<RoutineTaskDto> routineTasks;
+    private Boolean isActive;
+    @Builder.Default
+    private List<RoutineTaskDto> routineTasks = new ArrayList<>();
 }

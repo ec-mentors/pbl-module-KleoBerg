@@ -24,11 +24,11 @@ public class RoutineExecution {
     @ManyToOne(fetch = FetchType.LAZY)
     private Routine routine;
 
-    @Column(nullable = false)
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-
+    private LocalDateTime pauseInitiatedAt;
+    private int pausedDurationSeconds = 0;
     private Integer actualTotalDurationSeconds;
 
     @Enumerated(EnumType.STRING)
@@ -40,7 +40,7 @@ public class RoutineExecution {
 
     @OneToMany(mappedBy = "routineExecution", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("actualStartTime ASC")
-    @Singular
+    @Builder.Default
     private List<TaskExecution> taskExecutions = new ArrayList<>();
 
     // --- Utility Methods for post-creation modification ---
@@ -52,5 +52,6 @@ public class RoutineExecution {
     public void removeTaskExecution(TaskExecution taskExecution) {
         taskExecutions.remove(taskExecution);
         taskExecution.setRoutineExecution(null);
+
     }
 }
